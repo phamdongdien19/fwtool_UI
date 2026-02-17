@@ -6371,18 +6371,16 @@ textarea.form-control {
     letter-spacing: 0.5px;
 }
 
-    /* FW Tools Demo - Layout Robustness */
-    .app-container { display: flex !important; flex-direction: row !important; align-items: stretch !important; min-height: 100vh !important; width: 100% !important; }
-    .sidebar { position: sticky !important; top: 0 !important; left: 0 !important; flex-shrink: 0 !important; height: 100vh !important; z-index: 1000 !important; background: var(--bg-sidebar) !important; display: flex !important; flex-direction: column !important; }
+    /* FW Tools Demo - Dynamic Flex Layout */
+    .app-container { display: flex !important; flex-direction: row !important; align-items: stretch !important; min-height: 100vh !important; }
+    .sidebar { position: sticky !important; top: 0 !important; left: 0 !important; flex-shrink: 0 !important; height: 100vh !important; z-index: 1000 !important; }
     .main-content { flex: 1 !important; min-width: 0 !important; display: flex !important; flex-direction: column !important; position: relative !important; }
     .sidebar.collapsed { width: var(--sidebar-collapsed-width) !important; }
     .sidebar.collapsed .nav-text, .sidebar.collapsed .logo-text { display: none !important; }
-    
     @media screen and (max-width: 768px) {
         .app-container { display: block !important; }
-        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
+        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; transition: transform 0.3s ease !important; }
         .sidebar.mobile-open { transform: translateX(0) !important; }
-        .mobile-overlay.active { display: block !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; }
     }
     
 </style>
@@ -6522,7 +6520,7 @@ textarea.form-control {
                             onchange="handleProjectSelect(this.value); updateProjectStarButton(); if(typeof updateCurrentProjectIndicator==='function') updateCurrentProjectIndicator(this.value);">
                             <option value="260106">260106 - home</option>
                         </select>
-                        <button class="star-toggle" id="projectStarBtn" class="star-toggle active" style="display: inline-block; color: #fbbf24; margin-right: 12px; font-size: 18px;">★</button>
+                        <button class="star-toggle" id="projectStarBtn" style="display: none;"
                             onclick="toggleStarProject(document.getElementById('projectSelect').selectedOptions[0]?.text)"
                             data-i18n-title="header.starProject">☆</button>
 
@@ -6543,15 +6541,21 @@ textarea.form-control {
 
                     <!-- User Info & Logout -->
                     <!-- User Info & Logout Dropdown -->
-                    
-        <div class="user-profile-static" style="display: flex; align-items: center; gap: 12px; padding: 4px 12px; background: var(--bg-tertiary); border-radius: 30px; border: 1px solid var(--border-color);">
-            <div style="text-align: right; line-height: 1.2;">
-                <div style="font-size: 13px; font-weight: 700;">Admin User</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Quản trị viên</div>
-            </div>
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">AD</div>
-        </div>
-    
+                    <div class="user-menu-container">
+                        <button class="user-avatar-btn" onclick="toggleUserDropdown()" id="userAvatarBtn"
+                            title="User Menu">
+                            <div class="user-avatar-icon" id="userAvatarIcon" style="background:#6366f1; font-weight:800; display:flex; align-items:center; justify-content:center;">Đ</div>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-dropdown-header">
+                                <span class="user-email-display" id="userEmail">...</span>
+                            </div>
+                            <button class="user-dropdown-item logout-btn" onclick="handleLogout()">
+                                <span class="dropdown-icon">🚪</span>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="notification-bell" id="notificationBell">
                         <button class="btn btn-icon notification-btn"
@@ -6591,14 +6595,14 @@ textarea.form-control {
                         <div class="stat-card">
                             <div class="stat-icon sms">📱</div>
                             <div class="stat-info">
-                                <span class="stat-value" id="smsMarked">0</span>
+                                <span class="stat-value" id="smsMarked">1,240</span>
                                 <span class="stat-label" data-i18n="dashboard.smsMarked">SMS Marked</span>
                             </div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon email">📧</div>
                             <div class="stat-info">
-                                <span class="stat-value" id="emailMarked">0</span>
+                                <span class="stat-value" id="emailMarked">315</span>
                                 <span class="stat-label" data-i18n="dashboard.emailMarked">Email Marked</span>
                             </div>
                         </div>
@@ -7059,7 +7063,7 @@ textarea.form-control {
                                 <div class="card">
                                     <div class="card-header">
                                         <h3>📁 Projects</h3>
-                                        <span class="badge" id="projectCount">6</span>
+                                        <span class="badge" id="projectCount">0</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="projects-list" id="projectsList">
@@ -7069,22 +7073,10 @@ textarea.form-control {
                 <div class="project-name">Entre</div>
                 <div class="project-meta">Survey: 8662546 &nbsp; 628/640</div>
             </div>
-            <div class="project-badges">
-                <button class="btn-delete-mini">🗑️</button>
-                <button class="btn-star-mini active">⭐</button>
-            </div>
+            <div class="project-badges"><button class="btn-star-mini active">⭐</button></div>
         </div>
-        <div class="project-item" onclick="switchProject('h260106', this)">
-            <div class="project-icon">🦖</div>
-            <div class="project-info">
-                <div class="project-name">⚡ 260106 - h...</div>
-                <div class="project-meta">Survey: 8668405</div>
-            </div>
-        </div>
+        <div class="project-item"><div class="project-icon">🦖</div><div class="project-info"><div class="project-name">⚡ 260106 - h...</div><div class="project-meta">Survey: 8668405</div></div></div>
         <div class="project-item"><div class="project-icon">🦖</div><div class="project-info"><div class="project-name">⚡ reask 1 - f88</div><div class="project-meta">Survey: 8615387</div></div></div>
-        <div class="project-item"><div class="project-icon">🍄</div><div class="project-info"><div class="project-name">reask 3 - f88</div><div class="project-meta">Survey: 8620972</div></div></div>
-        <div class="project-item"><div class="project-icon">🍄</div><div class="project-info"><div class="project-name">flyer</div><div class="project-meta">Survey: 8598754</div></div></div>
-        <div class="project-item"><div class="project-icon">🍄</div><div class="project-info"><div class="project-name">artmoney</div><div class="project-meta">Survey: 8597003</div></div></div>
     </div></div>
                                     </div>
                                 </div>
@@ -7094,7 +7086,7 @@ textarea.form-control {
                             <div class="project-detail-panel">
                                 <div class="card" id="projectDetailCard" style="display: block;">
                                     <div class="card-header">
-                                        <h3 id="projectDetailTitle">Entre</h3>
+                                        <h3 id="projectDetailTitle">260106 - home</h3>
                                         <div class="project-actions">
                                             <button class="btn btn-xs btn-outline" onclick="editCurrentProject()"
                                                 title="Edit">✏️</button>
@@ -7107,25 +7099,25 @@ textarea.form-control {
                                         <div class="project-info-section">
                                             <div class="info-row">
                                                 <span class="info-label">Survey ID:</span>
-                                                <span class="info-value" id="projectSurveyId">8662546</span>
+                                                <span class="info-value" id="projectSurveyId">-</span>
                                             </div>
                                             <div class="info-row">
                                                 <span class="info-label">Target:</span>
-                                                <span class="info-value" id="projectTarget">600 responses</span>
+                                                <span class="info-value" id="projectTarget">-</span>
                                             </div>
                                         </div>
 
                                         <!-- Criteria Section -->
                                         <div class="project-criteria-section">
                                             <h4>📋 <span data-i18n="project.criteria">Project Criteria</span></h4>
-                                            <p class="criteria-text" id="projectCriteria">Tuổi 18-50, HCM/HN, 50% Nam/Nữ...</p>
+                                            <p class="criteria-text" id="projectCriteria">-</p>
                                         </div>
 
                                         <!-- Notes Section -->
                                         <div class="project-notes-section" id="projectNotesSection"
                                             style="display: none;">
                                             <h4>💡 <span data-i18n="projectForm.notes">Notes</span></h4>
-                                            <p class="notes-text" id="projectNotes">Ưu tiên Age18-29, 15mil-20mil...</p>
+                                            <p class="notes-text" id="projectNotes">-</p>
                                         </div>
 
                                         <!-- Quota Section -->
@@ -7195,54 +7187,39 @@ textarea.form-control {
                 <!-- Data View (Filter & Batch) -->
                 <section class="view" id="dataView">
                     <div class="data-view-layout">
-                        <div class="data-view-main" style="padding: 24px; padding-top: 10px;">
+                        <div class="data-view-main">
                             <!-- Project Info Panel (Moved here) -->
                             
-        <div class="data-view-top-layout" style="display: flex; align-items: stretch; gap: 20px; margin-bottom: 24px; min-height: 280px;">
+        <div class="data-view-top-layout" style="display: flex; align-items: stretch; gap: 20px; margin-bottom: 24px;">
             <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0;">
         <div class="project-info-panel" style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); height: 100%;">
             <div class="project-name-box" style="font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                 <span style="font-size: 18px;">📂</span> 260106 - home
             </div>
             <div class="priority-box" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-                <div style="color: #92400e; font-weight: 700; font-size: 13px;">🔥 Priority to run:</div>
-                <ul style="color: #b45309; font-size: 12px; margin-top: 6px; list-style: disc; padding-left: 20px;">
+                <div style="color: #92400e; font-weight: 700; font-size: 13px;">🔥 Priority:</div>
+                <ul style="color: #b45309; font-size: 11px; margin-top: 5px; list-style: disc; padding-left: 20px;">
                     <li>TOTAL 60+: <span style="color: #ef4444; font-weight: 700;">Missing 51</span></li>
-                    <li>Nữ 33: <span style="color: #ef4444; font-weight: 700;">Missing 31</span></li>
                 </ul>
             </div>
-            <div class="quota-progress-box" style="margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px;">
-                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span></span>
-                    <span>▶️</span>
+            <div class="quota-progress-box" style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                    <span>📊 Quota: 9/60</span>
                 </div>
                 <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
                     <div style="width: 15%; height: 100%; background: #6366f1;"></div>
                 </div>
             </div>
-            <div style="margin-bottom: 12px; font-size: 12px; color: #94a3b8;">📌 PROJECT CRITERIA: hcm, nam, nu, cate1 10-20...</div>
-            <button class="btn btn-primary" style="width: 100%; height: 36px; border-radius: 8px; font-size: 13px;">💾 Save Changes</button>
+            <button class="btn btn-primary" style="width: 100%; height: 36px; font-size: 12px;">💾 Save Changes</button>
         </div>
     </div>
             
-        <div class="card" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
-            <div class="card-header" style="padding: 12px 16px; background: rgba(99, 102, 241, 0.03); border-bottom: 1px solid var(--border-color);">
-                 <h3 style="font-size: 14px; display: flex; align-items: center; gap: 8px;">📋 Vendors & Quota</h3>
+        <div class="card" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column;">
+            <div class="card-header" style="background: rgba(99, 102, 241, 0.03); padding: 10px 16px; border-bottom: 1px solid var(--border-color);">
+                <h3 style="font-size: 13px;">📋 Vendors & Quota</h3>
             </div>
-            <div class="card-body" style="padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px;">
-                 <div>
-                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">📊 Sample Vendors:</div>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                         <input type="text" class="form-control form-control-sm" placeholder="Enter Cint link..." style="background: var(--bg-tertiary);">
-                         <input type="text" class="form-control form-control-sm" placeholder="Enter PureSpectrum link..." style="background: var(--bg-tertiary);">
-                    </div>
-                 </div>
-                 <div style="border-top: 1px dashed var(--border-color); padding-top: 12px;">
-                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">📊 Vendor Quota Table</div>
-                    <div style="margin-top: 8px; padding: 20px; background: var(--bg-tertiary); border: 1px dashed var(--border-color); border-radius: 8px; text-align: center; color: #64748b; font-size: 12px;">
-                        No data. Click "Fetch" or "+ Add row"
-                    </div>
-                 </div>
+            <div class="card-body" style="padding: 16px; flex: 1; min-height: 180px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #64748b; border: 1px dashed var(--border-color); margin: 16px; border-radius: 8px; background: var(--bg-tertiary);">
+                No data available for this project.
             </div>
         </div>
     
@@ -7250,18 +7227,7 @@ textarea.form-control {
     
 
                             <!-- Main content area -->
-                            
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <div style="position: relative; flex: 1;">
-                <input type="text" class="form-control" placeholder="Search..." style="padding-left: 32px; height: 38px; border-radius: 8px;">
-                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
-            </div>
-            <button class="btn btn-outline" style="height: 38px; border-radius: 8px;">🎲 Shuffle</button>
-            <button class="btn btn-outline" style="height: 38px; border-radius: 8px;">⚙️ Columns</button>
-            <div style="margin-left: auto; font-size: 12px; color: #64748b;">Showing 1-25 / 2000</div>
-        </div>
-    
-<div class="data-toolbar" style="margin-bottom: 12px;">
+                            <div class="data-toolbar">
                                 <div class="toolbar-left">
                                     <div class="filter-section">
                                         <button class="btn btn-icon" id="filterToggle" title="Toggle Filters">
@@ -7304,22 +7270,10 @@ textarea.form-control {
                                 </div>
                             </div>
                             <!-- Filter Summary Box -->
-                            
-        <div class="card" style="margin-bottom: 24px;">
-            <div class="card-body" style="padding: 16px;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                    <h4 style="font-size: 13px; color: #6366f1; display: flex; align-items: center; gap: 6px;">🟣 Hiện trạng Filter</h4>
-                    <span style="font-size: 11px; color: #ef4444; cursor: pointer;">Xóa hết ×</span>
-                </div>
-                <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Đang hiển thị: <span style="color: #6366f1;">2,000 / 4,031</span> respondents</div>
-                <div class="filter-summary-tags" style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <span class="filter-tag" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8;">province: Ho Chi Minh</span>
-                    <span class="filter-tag" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8;">year: 28 items</span>
-                    <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">SMS_Batch: 1, 2</span>
-                </div>
-            </div>
-        </div>
-    
+                            <div id="filterSummaryBox" class="filter-summary-box" style="display: block; background: var(--bg-secondary); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+        <div style="color:#6366f1; font-weight:700; font-size:13px; margin-bottom:8px;">🟣 Hiện trạng Filter</div>
+        <div style="font-size:13px;">Đang hiển thị: <strong style="color:#6366f1;">2,000 / 4,031</strong> respondents</div>
+    </div>
 
                             <div class="filter-panel" id="filterPanel" style="display: none;">
                                 <div class="filter-builder">
@@ -7434,24 +7388,8 @@ textarea.form-control {
 
                             <div class="data-table-container">
                                 <table class="data-table" id="dataTable">
-                                    <thead></thead>
-                                    <tbody>
-        <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-tertiary); padding: 8px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 13px;">
-             <strong>📁 Project: <span style="background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px;">260106 - home</span></strong>
-             <div style="margin-left: auto; display: flex; gap: 6px;">
-                <button class="btn btn-sm" style="background: #06b6d4; color: white; height: 28px;">Mark Batch ▼</button>
-                <select class="form-control form-control-sm" style="width: 60px; height: 28px;"><option>SMS</option></select>
-                <button class="btn btn-sm btn-danger" style="height: 28px;">🗑️</button>
-             </div>
-        </div>
-        <table class="data-table" style="width: 100%;">
-            <thead><tr style="border-bottom: 1px solid var(--border-color);"><th>#</th><th>MOBILE</th><th>YEAR</th><th>GENDER</th><th>PROVINCE</th><th>SMS_BATCH</th></tr></thead>
-            <tbody>
-                <tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td>HCM</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
-                <tr><td>504</td><td>84913204007</td><td>41</td><td>Male</td><td>HCM</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
-            </tbody>
-        </table>
-    </tbody>
+                                    <thead id="dataTableHead"></thead>
+                                    <tbody><tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td>HCM</td><td><span class="badge" style="background:#e0f2fe; color:#0369a1;">3</span></td></tr></tbody>
                                 </table>
                                 <div class="empty-state" id="dataEmptyState">
                                     <img src="assets/icons/mantis.png" alt="" class="empty-icon-img">
@@ -7585,7 +7523,7 @@ textarea.form-control {
                                     </select>
                                 </div>
                                 <div class="export-preview-info">
-                                    <span>Rows to export: <strong id="smsExportCount">0</strong></span>
+                                    <span>Rows to export: <strong id="smsExportCount">1,240</strong></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Columns to export:</label>
@@ -7650,7 +7588,7 @@ textarea.form-control {
                             <h3>📜 Export History</h3>
                         </div>
                         <div class="card-body">
-                            <ul class="export-history-list" id="exportHistory">
+                            <ul class="export-history-list" id="exportHistory"><li style="font-size:12px; padding:10px; border-bottom:1px solid var(--border-color);">✅ Export_Batch_1.xlsx <span style="font-size:10px; opacity:0.5;">- 2 mins ago</span></li>>
                                 <li class="empty-state">
                                     <span class="empty-icon">📁</span>
                                     <p>Chưa có export nào</p>
@@ -7765,7 +7703,7 @@ textarea.form-control {
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Current Template:</label>
-                                <textarea id="templateText" class="form-control" rows="4"
+                                <textarea id="templateText" class="form-control" rows="4">Chao bạn, moi ban tham gia khao sat tai: {link}. Xin cam on!</textarea>
                                     placeholder="Enter SMS template text..."></textarea>
                                 <div
                                     style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
@@ -8305,67 +8243,34 @@ textarea.form-control {
     <!-- © 2025 Phạm Đông Điền | phamdongdien19@gmail.com | PDD-FWTOOLS-2024-AUTHENTIC -->
 
 <script>
-    // System Functions
-    function toggleSidebar() { 
-        const sb = document.getElementById('sidebar');
-        if(sb) sb.classList.toggle('collapsed');
-    }
-    
+    function toggleSidebar() { document.getElementById('sidebar')?.classList.toggle('collapsed'); }
     function toggleMobileMenu() { 
         document.getElementById('sidebar')?.classList.toggle('mobile-open'); 
         document.getElementById('mobileOverlay')?.classList.toggle('active'); 
     }
-
     function switchView(viewId, el) {
-        // Toggle Active Views
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        const targetView = document.getElementById(viewId + 'View');
-        if (targetView) targetView.classList.add('active');
-        
-        // Toggle Active Nav Items
+        document.getElementById(viewId + 'View')?.classList.add('active');
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        if (el && el.classList.contains('nav-item')) { 
-            el.classList.add('active'); 
-        } else { 
-            const ni = document.querySelector(`[data-view="${viewId}"]`) || document.querySelector(`[onclick*="'${viewId}'"]`);
-            if(ni) ni.classList.add('active'); 
-        }
-
-        // Header Title
-        const titles = { dashboard: 'Dashboard', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
+        if (el && el.classList.contains('nav-item')) { el.classList.add('active'); }
+        else { document.querySelector(`[data-view="${viewId}"]`)?.classList.add('active'); }
+        const titles = { dashboard: 'Dashboard', import: 'Import Data', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
         const titleEl = document.getElementById('pageTitle');
         if (titleEl) titleEl.innerText = titles[viewId] || 'FW Tools';
         
-        // Auto-close mobile drawer
+        // Ensure sidebar pushes content correctly for ALL views
         document.getElementById('sidebar')?.classList.remove('mobile-open');
         document.getElementById('mobileOverlay')?.classList.remove('active');
     }
-
-    // Initialization
     document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
-        
-        // Sidebar Overrides
-        const toggleBtn = document.getElementById('sidebarToggle');
-        if (toggleBtn) toggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleSidebar(); });
-
-        const mobileBtn = document.getElementById('mobileMenuBtn');
-        if (mobileBtn) mobileBtn.addEventListener('click', toggleMobileMenu);
-
-        const overlay = document.getElementById('mobileOverlay');
-        if (overlay) overlay.addEventListener('click', toggleMobileMenu);
-
-        // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', (e) => { 
-                e.preventDefault(); 
-                const view = item.getAttribute('data-view');
-                if(view) switchView(view, item);
-            });
+            item.addEventListener('click', (e) => { e.preventDefault(); switchView(item.getAttribute('data-view'), item); });
         });
-
-        // Set Default View
-        switchView('data'); 
+        document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
+        document.getElementById('mobileMenuBtn')?.addEventListener('click', toggleMobileMenu);
+        document.getElementById('mobileOverlay')?.addEventListener('click', toggleMobileMenu);
+        switchView('dashboard'); 
     });
 </script>
     
