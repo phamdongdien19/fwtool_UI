@@ -6394,6 +6394,63 @@ textarea.form-control {
         "identifier": "PDD-FWTOOLS-2024-AUTHENTIC"
     }
     </script>
+
+<style>
+    /* Robust Layout Fix to prevent Sidebar/Main overlap */
+    .app-container {
+        display: flex !important;
+        align-items: stretch !important;
+        min-height: 100vh !important;
+    }
+    .sidebar {
+        position: sticky !important;
+        top: 0 !important;
+        flex-shrink: 0 !important;
+        height: 100vh !important;
+        z-index: 100 !important;
+    }
+    .main-content {
+        flex: 1 !important;
+        min-width: 0 !important;
+        margin-left: 0 !important; /* Managed by flex now */
+    }
+
+    /* Handle Collapsed state with Flex */
+    .sidebar.collapsed {
+        width: var(--sidebar-collapsed-width) !important;
+    }
+
+    /* Mobile handling (Drawer behavior) */
+    @media screen and (max-width: 768px) {
+        .app-container {
+            display: block !important; /* Stack for mobile drawer to work */
+        }
+        .sidebar {
+            position: fixed !important;
+            transform: translateX(-100%) !important;
+            width: 260px !important;
+            transition: transform 0.3s ease !important;
+        }
+        .sidebar.mobile-open {
+            transform: translateX(0) !important;
+        }
+        .main-content {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+        .mobile-overlay.active {
+            display: block !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -7847,6 +7904,15 @@ textarea.form-control {
         const sidebar = document.getElementById('sidebar');
         if (sidebar) sidebar.classList.toggle('collapsed'); 
     }
+
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        if (sidebar && overlay) {
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+    }
     
     function switchView(viewId, el) {
         // Hide all views
@@ -7866,6 +7932,12 @@ textarea.form-control {
             const navItem = document.querySelector(`[data-view="${viewId}"]`) || document.querySelector(`[onclick*="'${viewId}'"]`);
             if (navItem) navItem.classList.add('active');
         }
+
+        // Close mobile menu if open
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        if (sidebar) sidebar.classList.remove('mobile-open');
+        if (overlay) overlay.classList.remove('active');
 
         // Update Header Title
         const titles = { 
@@ -7913,8 +7985,19 @@ textarea.form-control {
         if (sidebarBtn) {
             sidebarBtn.onclick = toggleSidebar;
         }
+
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        if (mobileBtn) {
+            mobileBtn.onclick = toggleMobileMenu;
+        }
         
-        console.log('FW Tools High-Fidelity Demo Updated - Dark Mode Mandatory');
+        const overlay = document.getElementById('mobileOverlay');
+        if (overlay) {
+            overlay.onclick = toggleMobileMenu;
+        }
+        
+        console.log('FW Tools High-Fidelity Demo Updated - Dark Mode & Responsive Fixes');
     });
 </script>
 
