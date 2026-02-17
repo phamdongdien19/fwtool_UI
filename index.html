@@ -6396,60 +6396,14 @@ textarea.form-control {
     </script>
 
 <style>
-    /* Robust Layout Fix to prevent Sidebar/Main overlap */
-    .app-container {
-        display: flex !important;
-        align-items: stretch !important;
-        min-height: 100vh !important;
-    }
-    .sidebar {
-        position: sticky !important;
-        top: 0 !important;
-        flex-shrink: 0 !important;
-        height: 100vh !important;
-        z-index: 100 !important;
-    }
-    .main-content {
-        flex: 1 !important;
-        min-width: 0 !important;
-        margin-left: 0 !important; /* Managed by flex now */
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    /* Handle Collapsed state with Flex */
-    .sidebar.collapsed {
-        width: var(--sidebar-collapsed-width) !important;
-    }
-
-    /* Mobile handling (Drawer behavior) */
+    .app-container { display: flex !important; align-items: stretch !important; min-height: 100vh !important; }
+    .sidebar { position: sticky !important; top: 0 !important; flex-shrink: 0 !important; height: 100vh !important; z-index: 100 !important; }
+    .main-content { flex: 1 !important; min-width: 0 !important; margin-left: 0 !important; }
     @media screen and (max-width: 768px) {
-        .app-container {
-            display: block !important; /* Stack for mobile drawer to work */
-        }
-        .sidebar {
-            position: fixed !important;
-            transform: translateX(-100%) !important;
-            width: 260px !important;
-            transition: transform 0.3s ease !important;
-        }
-        .sidebar.mobile-open {
-            transform: translateX(0) !important;
-        }
-        .main-content {
-            margin-left: 0 !important;
-            width: 100% !important;
-        }
-        .mobile-overlay.active {
-            display: block !important;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 90;
-        }
+        .app-container { display: block !important; }
+        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
+        .sidebar.mobile-open { transform: translateX(0) !important; }
+        .mobile-overlay.active { display: block !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; }
     }
 </style>
 
@@ -6588,13 +6542,13 @@ textarea.form-control {
                     <!-- User Info & Logout -->
                     <!-- User Info & Logout Dropdown -->
                     
-                    <div class="user-profile-static" style="display: flex; align-items: center; gap: 12px; padding: 4px 12px; background: var(--bg-tertiary); border-radius: 30px; border: 1px solid var(--border-color);">
-                        <div style="text-align: right; line-height: 1.2;">
-                            <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Admin User</div>
-                            <div style="font-size: 10px; color: var(--text-secondary);">Quản trị viên</div>
-                        </div>
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">AD</div>
-                    </div>
+        <div class="user-profile-static" style="display: flex; align-items: center; gap: 12px; padding: 4px 12px; background: var(--bg-tertiary); border-radius: 30px; border: 1px solid var(--border-color);">
+            <div style="text-align: right; line-height: 1.2;">
+                <div style="font-size: 13px; font-weight: 700;">Admin User</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Quản trị viên</div>
+            </div>
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">AD</div>
+        </div>
     
 
                     <div class="notification-bell" id="notificationBell">
@@ -6801,20 +6755,6 @@ textarea.form-control {
                 <div class="project-meta">Survey: 8620972</div>
             </div>
         </div>
-        <div class="project-item">
-            <div class="project-icon">🍄</div>
-            <div class="project-info">
-                <div class="project-name">flyer</div>
-                <div class="project-meta">Survey: 8598754</div>
-            </div>
-        </div>
-        <div class="project-item">
-            <div class="project-icon">🍄</div>
-            <div class="project-info">
-                <div class="project-name">artmoney</div>
-                <div class="project-meta">Survey: 8597003</div>
-            </div>
-        </div>
     </div></div>
                                     </div>
                                 </div>
@@ -6848,28 +6788,14 @@ textarea.form-control {
                                         <!-- Criteria Section -->
                                         <div class="project-criteria-section">
                                             <h4>📋 <span data-i18n="project.criteria">Project Criteria</span></h4>
-                                            <p class="criteria-text" id="projectCriteria">
-        <ul style="list-style: disc; padding-left: 20px; margin-top: 10px;">
-            <li>Tuổi: 18 - 50 ; HCM/HN</li>
-            <li>Vai trò: Là người quyết định mua chính đối với các loại thực phẩm chức năng và đồ uống thể thao.</li>
-            <li>SEC: ABC</li>
-            <li>Giới tính: 50% nam / 50% nữ.</li>
-            <li>Phân loại đối tượng:</li>
-        </ul>
-        <ul style="list-style: circle; padding-left: 20px; margin-top: 10px;">
-            <li>Người dùng đồ uống dinh dưỡng thể thao</li>
-            <li>Người dùng TPCN</li>
-            <li>Người tập Gym/ thể thao</li>
-            <li>Người có ý định sử dụng sp trong tương lai.</li>
-        </ul>
-    </p>
+                                            <p class="criteria-text" id="projectCriteria">-</p>
                                         </div>
 
                                         <!-- Notes Section -->
                                         <div class="project-notes-section" id="projectNotesSection"
                                             style="display: none;">
                                             <h4>💡 <span data-i18n="projectForm.notes">Notes</span></h4>
-                                            <p class="notes-text" id="projectNotes">Ưu tiên: Age18-29, 15mil-20mil, sử dụng thực phẩm chức năng hỗ trợ cho sport,</p>
+                                            <p class="notes-text" id="projectNotes">-</p>
                                         </div>
 
                                         <!-- Quota Section -->
@@ -6881,7 +6807,7 @@ textarea.form-control {
                                                     🔄 Refresh
                                                 </button>
                                             </div>
-                                            <div class="quota-last-fetch" id="quotaLastFetch">Cập nhật: 18:18:40 17/2/2026</div>
+                                            <div class="quota-last-fetch" id="quotaLastFetch">Chưa fetch</div>
                                             <div class="quota-list" id="projectQuotaList">
         <div class="quota-item" style="margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
@@ -6945,7 +6871,7 @@ textarea.form-control {
                 <!-- Data View (Filter & Batch) -->
                 <section class="view" id="dataView">
                     <div class="data-view-layout">
-                        <div class="data-view-main" style="display: flex; align-items: flex-start; gap: 20px; padding: 20px;">
+                        <div class="data-view-main" style="display: flex; align-items: flex-start; gap: 20px; padding: 0;">
                             <!-- Project Info Panel (Moved here) -->
                             <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0;">
         <div class="project-info-panel" style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); height: 100%;">
@@ -6953,76 +6879,33 @@ textarea.form-control {
                 <span style="font-size: 18px;">📂</span> 260106 - home
             </div>
             <div class="priority-box" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-                <div style="color: #92400e; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                    🔥 Priority to run:
-                </div>
-                <ul style="color: #b45309; font-size: 12px; margin-top: 6px; list-style: disc; padding-left: 20px; line-height: 1.6;">
-                    <li>TOTAL 60+: <span style="color: #ef4444; font-weight: 700;">Missing 51</span></li>
-                    <li>Nữ 33: <span style="color: #ef4444; font-weight: 700;">Missing 31</span></li>
-                    <li>Nam 22: <span style="color: #ef4444; font-weight: 700;">Missing 20</span></li>
+                <div style="color: #92400e; font-weight: 700; font-size: 13px;">🔥 Priority to run:</div>
+                <ul style="color: #b45309; font-size: 12px; margin-top: 6px; list-style: disc; padding-left: 20px;">
+                    <li>TOTAL 60+: <span style="color: #ef4444;">Missing 51</span></li>
                 </ul>
             </div>
             <div class="quota-progress-box" style="margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px;">
-                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span> <small style="color: #64748b; font-weight: normal;">(remaining 51)</small></span>
-                    <span style="font-size: 14px; cursor: pointer;">▶️</span>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span></span>
+                    <span>▶️</span>
                 </div>
-                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="width: 15%; height: 100%; background: linear-gradient(90deg, #6366f1, #a855f7);"></div>
+                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden;">
+                    <div style="width: 15%; height: 100%; background: #6366f1;"></div>
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
-                 <div style="font-weight: 700; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">📌 PROJECT CRITERIA</div>
-                 <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">hcm, nam, nu, cate1 10-20, cate2 10-20, cate3 10-20</div>
-            </div>
-            <div style="margin-bottom: 20px;">
-                 <div style="font-weight: 700; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">💡 Quick Notes:</div>
-                 <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; min-height: 80px; font-size: 13px; color: var(--text-primary);">Tháng 1/24, phỏng vấn tại nhà</div>
-            </div>
-            <button class="btn btn-primary" style="width: 100%; height: 40px; border-radius: 8px; font-weight: 600;">💾 Save Changes</button>
+            <button class="btn btn-primary" style="width: 100%;">💾 Save Changes</button>
         </div>
     </div><div class="data-content-column" style="flex: 1; min-width: 0;">
 
                             <!-- Main content area -->
                             
         <div class="card" style="margin-bottom: 24px; width: 100%;">
-            <div class="card-header" style="padding: 12px 16px; background: rgba(99, 102, 241, 0.05);">
-                 <h3 style="font-size: 14px; display: flex; align-items: center; gap: 8px;">📋 Vendors & Quota</h3>
-            </div>
-            <div class="card-body" style="padding: 16px;">
-                <div class="vendors-links">
-                     <div style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">📊 Sample Vendors:</div>
-                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                         <div style="display: flex; align-items: center; gap: 12px;">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/PureSpectrum_Logo.png" style="height: 20px; filter: grayscale(1) brightness(2);" onerror="this.src='https://via.placeholder.com/20?text=PS'">
-                             <input type="text" class="form-control form-control-sm" value="Enter project link PureSpectrum..." style="color: #64748b;">
-                         </div>
-                         <div style="display: flex; align-items: center; gap: 12px;">
-                             <strong style="font-size: 14px; width: 40px;">Cint</strong>
-                             <input type="text" class="form-control form-control-sm" value="Enter project link Cint..." style="color: #64748b;">
-                         </div>
-                     </div>
-                </div>
-                <div class="vendor-quota-table-container" style="margin-top: 24px; border-top: 1px dashed var(--border-color); padding-top: 16px;">
-                    <div style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">📊 Vendor Quota Table</div>
-                    <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;">
-                        <input type="text" class="form-control form-control-sm" placeholder="Loc quota..." style="flex: 1;">
-                        <button class="btn btn-sm btn-outline">🗑️ Xóa</button>
+            <div class="card-header"><h3 style="font-size: 14px;">📋 Vendors & Quota</h3></div>
+            <div class="card-body">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <strong>Cint</strong> <input type="text" class="form-control form-control-sm" value="link..." style="flex: 1;">
                     </div>
-                    <table class="data-table small" style="width: 100%;">
-                        <thead>
-                            <tr style="background: var(--bg-tertiary);">
-                                <th style="text-align: left; padding: 10px;">TÊN QUOTA</th>
-                                <th style="text-align: center; width: 100px;">NEED</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td style="padding: 10px; color: #94a3b8;">🚩 Nam</td><td style="text-align: center; font-weight: 600;">20</td></tr>
-                            <tr style="background: rgba(255,255,255,0.02);"><td style="padding: 10px; color: #94a3b8;">🚩 Nữ</td><td style="text-align: center; font-weight: 600;">31</td></tr>
-                            <tr><td style="padding: 10px; color: #94a3b8;">🚩 Tủ lạnh minimum</td><td style="text-align: center; font-weight: 600;">17</td></tr>
-                            <tr style="background: rgba(239, 68, 68, 0.05);"><td style="padding: 10px; color: #ef4444; font-weight: 600;">🚩 60+</td><td style="text-align: center; color: #ef4444; font-weight: 800;">51</td></tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -7074,12 +6957,7 @@ textarea.form-control {
         <div class="filter-summary-tags">
             <span class="filter-tag">province: Ho Chi Minh</span>
             <span class="filter-tag">year: 28 items</span>
-            <span class="filter-tag">fincome: 14 items</span>
             <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">SMS_Batch: 1, 2</span>
-            <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">Email_Batch: 1</span>
-        </div>
-        <div style="font-size: 13px; color: var(--text-secondary); margin-top: 10px;">
-            Đang hiển thị: <strong style="color: var(--color-primary);">2000</strong> / 4031 respondents
         </div>
     </div>
 
@@ -7196,13 +7074,10 @@ textarea.form-control {
 
                             <div class="data-table-container">
                                 <table class="data-table" id="dataTable">
-                                    <thead id="dataTableHead"><tr><th>#</th><th>MOBILE</th><th>YEAR</th><th>GENDER</th><th>FINCOME</th><th>PROVINCE</th><th>CONTENT_SMS</th><th>SMS_BATCH</th></tr></thead>
-                                    <tbody id="dataTableBody">
-        <tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td>30M - 40M</td><td>HCM</td><td>IFM co KS 5phut...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
-        <tr><td>504</td><td>84913204007</td><td>41</td><td>Male</td><td>40M - 50M</td><td>HCM</td><td>IFM co KS 5phut...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
-    </tbody>
+                                    <thead><tr><th>#</th><th>MOBILE</th><th>YEAR</th><th>GENDER</th><th>SMS_BATCH</th></tr></thead>
+                                    <tbody><tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr></tbody>
                                 </table>
-                                <div class="empty-state" id="dataEmptyState" style="display: none;">
+                                <div class="empty-state" id="dataEmptyState">
                                     <img src="assets/icons/mantis.png" alt="" class="empty-icon-img">
                                     <p data-i18n="filter.noData">No data. Please import a file.</p>
                                     <button class="btn btn-primary" onclick="switchView('import')">Import Data</button>
@@ -8067,30 +7942,66 @@ textarea.form-control {
         }
     }
     function switchView(viewId, el) {
+        console.log('Switching to view:', viewId);
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const targetView = document.getElementById(viewId + 'View');
         if (targetView) targetView.classList.add('active');
+        
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         if (el && el.classList.contains('nav-item')) {
             el.classList.add('active');
         } else {
-            const navItem = document.querySelector(`[data-view="${viewId}"]`) || document.querySelector(`[onclick*="'${viewId}'"]`);
+            const navItem = document.querySelector(`[data-view="${viewId}"]`);
             if (navItem) navItem.classList.add('active');
         }
+
+        // Close mobile drawer
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('mobileOverlay');
         if (sidebar) sidebar.classList.remove('mobile-open');
         if (overlay) overlay.classList.remove('active');
+
+        // Header Title
         const titles = { dashboard: 'Dashboard', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
         const titleEl = document.getElementById('pageTitle');
         if (titleEl) titleEl.innerText = titles[viewId] || 'FW Tools';
     }
+
     document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
-        if (!document.querySelector('.view.active')) switchView('dashboard');
+        
+        // Add Event Listeners for Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const view = item.getAttribute('data-view');
+                switchView(view, item);
+            });
+        });
+
+        // Toggle Sidebar
+        const toggleBtn = document.getElementById('sidebarToggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', toggleSidebar);
+        }
+
+        // Mobile Menu Button
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Mobile Overlay
+        const overlay = document.getElementById('mobileOverlay');
+        if (overlay) {
+            overlay.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Default view
+        switchView('dashboard');
     });
 </script>
-    
+
 </body>
 
 </html>
