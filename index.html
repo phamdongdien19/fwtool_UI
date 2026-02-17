@@ -285,7 +285,7 @@ body {
     color: var(--text-inverse);
     display: flex;
     flex-direction: column;
-    position: sticky;
+    position: relative;
     top: 0;
     left: 0;
     height: 100vh;
@@ -3790,7 +3790,7 @@ textarea.form-control {
 
     /* Sidebar mobile */
     .sidebar {
-        position: sticky;
+        position: relative;
         left: 0;
         top: 0;
         height: 100%;
@@ -5164,7 +5164,7 @@ textarea.form-control {
         height: 100vh;
         top: 0;
         left: 0;
-        position: sticky;
+        position: relative;
         display: flex !important;
         /* Ensure flex display */
         visibility: visible;
@@ -6371,16 +6371,74 @@ textarea.form-control {
     letter-spacing: 0.5px;
 }
 
-    /* FW Tools Demo - Dynamic Flex Layout */
-    .app-container { display: flex !important; flex-direction: row !important; align-items: stretch !important; min-height: 100vh !important; }
-    .sidebar { position: sticky !important; top: 0 !important; left: 0 !important; flex-shrink: 0 !important; height: 100vh !important; z-index: 1000 !important; }
-    .main-content { flex: 1 !important; min-width: 0 !important; display: flex !important; flex-direction: column !important; position: relative !important; }
-    .sidebar.collapsed { width: var(--sidebar-collapsed-width) !important; }
-    .sidebar.collapsed .nav-text, .sidebar.collapsed .logo-text { display: none !important; }
+    /* FW Tools Demo - Ultimate Layout Fix */
+    body { 
+        margin: 0 !important; 
+        padding: 0 !important; 
+        overflow: hidden !important; /* Page scroll handle by main-content */
+    }
+    .app-container { 
+        display: flex !important; 
+        flex-direction: row !important; 
+        flex-wrap: nowrap !important;
+        align-items: stretch !important; 
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        background: var(--bg-primary) !important;
+    }
+    .sidebar { 
+        position: relative !important;
+        flex: 0 0 var(--sidebar-width) !important;
+        width: var(--sidebar-width) !important;
+        max-width: var(--sidebar-width) !important;
+        height: 100vh !important;
+        z-index: 1000 !important;
+        overflow-y: auto !important;
+        background: var(--bg-sidebar) !important;
+        border-right: 1px solid var(--border-color) !important;
+        transition: width 0.3s ease !important;
+    }
+    .sidebar.collapsed {
+        flex: 0 0 var(--sidebar-collapsed-width) !important;
+        width: var(--sidebar-collapsed-width) !important;
+    }
+    .main-content { 
+        flex: 1 !important; 
+        min-width: 0 !important; 
+        height: 100vh !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        background: var(--bg-primary) !important;
+    }
+    .main-header { 
+        flex: 0 0 auto !important; 
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 900 !important;
+        margin-bottom: 0 !important;
+    }
+    .content-wrapper { 
+        flex: 1 1 auto !important; 
+        padding: 20px !important;
+        margin-top: 0 !important;
+    }
+    
+    /* CRITICAL FIX: Hide inactive views to prevent vertical gap */
+    .view { 
+        display: none !important; 
+    }
+    .view.active { 
+        display: block !important; 
+    }
+
     @media screen and (max-width: 768px) {
         .app-container { display: block !important; }
-        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; transition: transform 0.3s ease !important; }
+        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; }
         .sidebar.mobile-open { transform: translateX(0) !important; }
+        .main-content { height: auto !important; overflow: visible !important; }
     }
     
 </style>
@@ -6544,7 +6602,7 @@ textarea.form-control {
                     <div class="user-menu-container">
                         <button class="user-avatar-btn" onclick="toggleUserDropdown()" id="userAvatarBtn"
                             title="User Menu">
-                            <div class="user-avatar-icon" id="userAvatarIcon" style="background:#6366f1; font-weight:800; display:flex; align-items:center; justify-content:center;">Đ</div>
+                            <div class="user-avatar-icon" id="userAvatarIcon" style="background:#6366f1; display:flex; align-items:center; justify-content:center;">Đ</div>
                         </button>
                         <div class="user-dropdown" id="userDropdown">
                             <div class="user-dropdown-header">
@@ -6636,7 +6694,7 @@ textarea.form-control {
                             </div>
                             <div class="card-body">
                                 <ul class="action-list" id="actionList">
-                                    <li class="empty-state">
+                                    <li>✅ Export_20250217.xlsx <span style="opacity:0.5; font-size:10px;">- 5m ago</span></li>
                                         <span class="empty-icon">📝</span>
                                         <p>Chưa có hoạt động nào</p>
                                     </li>
@@ -7069,14 +7127,10 @@ textarea.form-control {
                                         <div class="projects-list" id="projectsList">
         <div class="project-item active" onclick="switchProject('entre', this)">
             <div class="project-icon">🍄</div>
-            <div class="project-info">
-                <div class="project-name">Entre</div>
-                <div class="project-meta">Survey: 8662546 &nbsp; 628/640</div>
-            </div>
+            <div class="project-info"><div class="project-name">Entre</div><div class="project-meta">Survey: 8662546 &nbsp; 628/640</div></div>
             <div class="project-badges"><button class="btn-star-mini active">⭐</button></div>
         </div>
         <div class="project-item"><div class="project-icon">🦖</div><div class="project-info"><div class="project-name">⚡ 260106 - h...</div><div class="project-meta">Survey: 8668405</div></div></div>
-        <div class="project-item"><div class="project-icon">🦖</div><div class="project-info"><div class="project-name">⚡ reask 1 - f88</div><div class="project-meta">Survey: 8615387</div></div></div>
     </div></div>
                                     </div>
                                 </div>
@@ -7086,7 +7140,7 @@ textarea.form-control {
                             <div class="project-detail-panel">
                                 <div class="card" id="projectDetailCard" style="display: block;">
                                     <div class="card-header">
-                                        <h3 id="projectDetailTitle">260106 - home</h3>
+                                        <h3 id="projectDetailTitle">Project Detail</h3>
                                         <div class="project-actions">
                                             <button class="btn btn-xs btn-outline" onclick="editCurrentProject()"
                                                 title="Edit">✏️</button>
@@ -7190,39 +7244,17 @@ textarea.form-control {
                         <div class="data-view-main">
                             <!-- Project Info Panel (Moved here) -->
                             
-        <div class="data-view-top-layout" style="display: flex; align-items: stretch; gap: 20px; margin-bottom: 24px;">
-            <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0;">
-        <div class="project-info-panel" style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); height: 100%;">
-            <div class="project-name-box" style="font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 18px;">📂</span> 260106 - home
+        <div class="data-view-top-layout" style="display: flex; gap: 20px; margin-bottom: 24px;">
+            <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0; background: var(--bg-secondary); border-radius:12px; padding:16px; border:1px solid var(--border-color);">
+                <div style="font-weight:700; margin-bottom:12px;">📂 260106 - home</div>
+                <div style="background:#fffbeb; padding:10px; border-radius:8px; color:#92400e; font-size:12px; margin-bottom:10px;">🔥 Priority: Missing 51</div>
+                <div style="height:8px; background:rgba(0,0,0,0.2); border-radius:4px; overflow:hidden;"><div style="width:15%; height:100%; background:#6366f1;"></div></div>
+                <div style="font-size:11px; margin-top:4px;">Quota: 9/60</div>
             </div>
-            <div class="priority-box" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-                <div style="color: #92400e; font-weight: 700; font-size: 13px;">🔥 Priority:</div>
-                <ul style="color: #b45309; font-size: 11px; margin-top: 5px; list-style: disc; padding-left: 20px;">
-                    <li>TOTAL 60+: <span style="color: #ef4444; font-weight: 700;">Missing 51</span></li>
-                </ul>
+            <div class="card" style="flex:1; margin-bottom:0;">
+                <div class="card-header" style="padding:10px 16px;">📋 Vendors & Quota</div>
+                <div class="card-body" style="height:150px; display:flex; align-items:center; justify-content:center; color:#64748b; font-size:12px; border:1px dashed var(--border-color); margin:10px; border-radius:8px; background:var(--bg-tertiary);">No data for this project.</div>
             </div>
-            <div class="quota-progress-box" style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                    <span>📊 Quota: 9/60</span>
-                </div>
-                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="width: 15%; height: 100%; background: #6366f1;"></div>
-                </div>
-            </div>
-            <button class="btn btn-primary" style="width: 100%; height: 36px; font-size: 12px;">💾 Save Changes</button>
-        </div>
-    </div>
-            
-        <div class="card" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column;">
-            <div class="card-header" style="background: rgba(99, 102, 241, 0.03); padding: 10px 16px; border-bottom: 1px solid var(--border-color);">
-                <h3 style="font-size: 13px;">📋 Vendors & Quota</h3>
-            </div>
-            <div class="card-body" style="padding: 16px; flex: 1; min-height: 180px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #64748b; border: 1px dashed var(--border-color); margin: 16px; border-radius: 8px; background: var(--bg-tertiary);">
-                No data available for this project.
-            </div>
-        </div>
-    
         </div>
     
 
@@ -7270,9 +7302,9 @@ textarea.form-control {
                                 </div>
                             </div>
                             <!-- Filter Summary Box -->
-                            <div id="filterSummaryBox" class="filter-summary-box" style="display: block; background: var(--bg-secondary); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 24px;">
-        <div style="color:#6366f1; font-weight:700; font-size:13px; margin-bottom:8px;">🟣 Hiện trạng Filter</div>
-        <div style="font-size:13px;">Đang hiển thị: <strong style="color:#6366f1;">2,000 / 4,031</strong> respondents</div>
+                            <div id="filterSummaryBox" style="display:block; background:var(--bg-secondary); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
+        <div style="color:#6366f1; font-weight:700; font-size:13px; margin-bottom:4px;">🟣 Filter Status</div>
+        <div style="font-size:13px;">Showing <strong style="color:#6366f1;">2,000 / 4,031</strong> respondents</div>
     </div>
 
                             <div class="filter-panel" id="filterPanel" style="display: none;">
@@ -7588,7 +7620,7 @@ textarea.form-control {
                             <h3>📜 Export History</h3>
                         </div>
                         <div class="card-body">
-                            <ul class="export-history-list" id="exportHistory"><li style="font-size:12px; padding:10px; border-bottom:1px solid var(--border-color);">✅ Export_Batch_1.xlsx <span style="font-size:10px; opacity:0.5;">- 2 mins ago</span></li>>
+                            <ul class="export-history-list" id="exportHistory">
                                 <li class="empty-state">
                                     <span class="empty-icon">📁</span>
                                     <p>Chưa có export nào</p>
@@ -7703,7 +7735,7 @@ textarea.form-control {
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Current Template:</label>
-                                <textarea id="templateText" class="form-control" rows="4">Chao bạn, moi ban tham gia khao sat tai: {link}. Xin cam on!</textarea>
+                                <textarea id="templateText" class="form-control" rows="4">Moi ban tham gia khao sat tai: {link}</textarea>
                                     placeholder="Enter SMS template text..."></textarea>
                                 <div
                                     style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
@@ -8250,17 +8282,25 @@ textarea.form-control {
     }
     function switchView(viewId, el) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId + 'View')?.classList.add('active');
+        const target = document.getElementById(viewId + 'View');
+        if (target) {
+            target.classList.add('active');
+            // Ensure no other view is accidentally visible due to inherited styles
+            document.querySelectorAll('.view').forEach(v => {
+                if(!v.classList.contains('active')) v.style.display = 'none';
+            });
+            target.style.display = 'block';
+        }
+        
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         if (el && el.classList.contains('nav-item')) { el.classList.add('active'); }
         else { document.querySelector(`[data-view="${viewId}"]`)?.classList.add('active'); }
-        const titles = { dashboard: 'Dashboard', import: 'Import Data', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
-        const titleEl = document.getElementById('pageTitle');
-        if (titleEl) titleEl.innerText = titles[viewId] || 'FW Tools';
         
-        // Ensure sidebar pushes content correctly for ALL views
-        document.getElementById('sidebar')?.classList.remove('mobile-open');
-        document.getElementById('mobileOverlay')?.classList.remove('active');
+        const titles = { dashboard: 'Dashboard', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
+        document.getElementById('pageTitle').innerText = titles[viewId] || 'FW Tools';
+        
+        // Reset scroll position
+        document.querySelector('.main-content').scrollTop = 0;
     }
     document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
