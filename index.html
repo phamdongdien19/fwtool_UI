@@ -6394,19 +6394,6 @@ textarea.form-control {
         "identifier": "PDD-FWTOOLS-2024-AUTHENTIC"
     }
     </script>
-
-<style>
-    .app-container { display: flex !important; align-items: stretch !important; min-height: 100vh !important; }
-    .sidebar { position: sticky !important; top: 0 !important; flex-shrink: 0 !important; height: 100vh !important; z-index: 100 !important; }
-    .main-content { flex: 1 !important; min-width: 0 !important; margin-left: 0 !important; }
-    @media screen and (max-width: 768px) {
-        .app-container { display: block !important; }
-        .sidebar { position: fixed !important; transform: translateX(-100%) !important; width: 260px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
-        .sidebar.mobile-open { transform: translateX(0) !important; }
-        .mobile-overlay.active { display: block !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; }
-    }
-</style>
-
 </head>
 
 <body>
@@ -6497,8 +6484,12 @@ textarea.form-control {
             </nav>
 
             <div class="sidebar-footer">
-                
-                
+                <button class="lang-toggle" id="langToggle" onclick="i18n.toggleLanguage()" title="Switch Language">
+                    <span class="lang-text">VI</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
                 <span class="version">v1.0.0</span>
                 <div class="sidebar-copyright"
                     style="font-size: 10px; color: #6b7280; margin-top: 5px; text-align: center;">© 2025 Phạm Đông Điền
@@ -6518,15 +6509,15 @@ textarea.form-control {
                     <div class="project-manager">
                         <select id="projectSelect" class="form-control form-control-sm"
                             onchange="handleProjectSelect(this.value); updateProjectStarButton(); if(typeof updateCurrentProjectIndicator==='function') updateCurrentProjectIndicator(this.value);">
-                            <option value="">-- Chọn Project --</option>
+                            <option value="260106">260106 - home</option>
                         </select>
-                        <button class="star-toggle" id="projectStarBtn" style="display: none;"
+                        <button class="star-toggle" id="projectStarBtn" class="star-toggle active" style="display: inline-block; color: #fbbf24;"
                             onclick="toggleStarProject(document.getElementById('projectSelect').selectedOptions[0]?.text)"
                             data-i18n-title="header.starProject">☆</button>
 
                         <div class="header-sms-preview" id="headerSmsPreview" data-i18n-title="header.smsContent">
                             <span data-i18n="header.smsContent">SMS Content: </span>
-                            <strong id="headerSmsText">--</strong>
+                            <strong id="headerSmsText" style="color: #6366f1;">IFM co KS 5phut ve tieu dung, thuong</strong></strong>
                         </div>
                         <button class="btn btn-sm btn-primary" onclick="saveCurrentProject()" title="Save Project"
                             data-i18n="header.save">💾
@@ -6541,15 +6532,21 @@ textarea.form-control {
 
                     <!-- User Info & Logout -->
                     <!-- User Info & Logout Dropdown -->
-                    
-        <div class="user-profile-static" style="display: flex; align-items: center; gap: 12px; padding: 4px 12px; background: var(--bg-tertiary); border-radius: 30px; border: 1px solid var(--border-color);">
-            <div style="text-align: right; line-height: 1.2;">
-                <div style="font-size: 13px; font-weight: 700;">Admin User</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Quản trị viên</div>
-            </div>
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">AD</div>
-        </div>
-    
+                    <div class="user-menu-container">
+                        <button class="user-avatar-btn" onclick="toggleUserDropdown()" id="userAvatarBtn"
+                            title="User Menu">
+                            <div class="user-avatar-icon" id="userAvatarIcon">Đ</div>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-dropdown-header">
+                                <span class="user-email-display" id="userEmail">...</span>
+                            </div>
+                            <button class="user-dropdown-item logout-btn" onclick="handleLogout()">
+                                <span class="dropdown-icon">🚪</span>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="notification-bell" id="notificationBell">
                         <button class="btn btn-icon notification-btn"
@@ -6582,7 +6579,7 @@ textarea.form-control {
                         <div class="stat-card">
                             <div class="stat-icon total">📊</div>
                             <div class="stat-info">
-                                <span class="stat-value" id="totalRows">4,031</span>
+                                <span class="stat-value" id="totalRows">0</span>
                                 <span class="stat-label" data-i18n="dashboard.totalRows">Total Rows</span>
                             </div>
                         </div>
@@ -6695,10 +6692,351 @@ textarea.form-control {
                 </section>
 
                 <!-- Import View -->
-                
+                <section class="view" id="importView">
+                    <div class="import-container">
+                        <!-- Import Type Tabs -->
+                        <div class="import-type-tabs">
+                            <button class="tab-btn active" data-import-type="file" onclick="switchImportTab('file')">📁
+                                Import File</button>
+                            <button class="tab-btn" data-import-type="url" onclick="switchImportTab('url')">🌐 Import
+                                URL</button>
+                            <button class="tab-btn" data-import-type="api" onclick="switchImportTab('api')">🔗 Alchemer
+                                API</button>
+                        </div>
+
+                        <!-- File Import Panel -->
+                        <div class="import-panel" id="fileImportPanel">
+                            <div class="drop-zone" id="dropZone">
+                                <div class="drop-zone-content">
+                                    <span class="drop-icon">📁</span>
+                                    <h3>Kéo thả file vào đây</h3>
+                                    <p>Hỗ trợ CSV, Excel (.xlsx, .xls)</p>
+                                    <div class="drop-divider">
+                                        <span>hoặc</span>
+                                    </div>
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" hidden>
+                                        <button class="btn btn-primary"
+                                            onclick="document.getElementById('fileInput').click()">Chọn File</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="import-options card" id="importOptions" style="display: none;">
+                                <div class="card-header">
+                                    <h3>⚙️ Import Options</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Sheet (cho file Excel):</label>
+                                        <select id="sheetSelect" class="form-control">
+                                            <option value="0">Sheet 1</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Header row:</label>
+                                        <input type="number" id="headerRow" class="form-control" value="1" min="1">
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <label>
+                                            <input type="checkbox" id="autoDetectColumns" checked>
+                                            Tự động detect column mapping
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-secondary" onclick="cancelImport()">Hủy</button>
+                                    <button class="btn btn-primary" onclick="confirmImport()">Import</button>
+                                </div>
+                            </div>
+
+                            <div class="import-preview card" id="importPreview" style="display: none;">
+                                <div class="card-header">
+                                    <h3>👁️ Preview</h3>
+                                    <span class="preview-count" id="previewCount"></span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-container">
+                                        <table class="data-table" id="previewTable">
+                                            <thead></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- URL Import Panel -->
+                        <div class="import-panel" id="urlImportPanel" style="display: none;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>🌐 Import từ URL</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                                        Nhập URL của file CSV hoặc Excel để import trực tiếp.
+                                    </p>
+                                    <div class="form-group">
+                                        <label>URL:</label>
+                                        <input type="url" id="importUrl" class="form-control"
+                                            placeholder="https://example.com/data.csv">
+                                    </div>
+                                    <div class="url-import-progress" id="urlImportProgress" style="display: none;">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="urlProgressFill" style="width: 0%"></div>
+                                        </div>
+                                        <span class="progress-text" id="urlProgressText">Đang tải...</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary" onclick="importFromUrl()">
+                                        📥 Import từ URL
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alchemer API Panel -->
+                        <div class="import-panel" id="apiImportPanel" style="display: none;">
+                            <!-- API Credentials Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>🔑 API Credentials</h3>
+                                    <span class="api-status" id="apiStatus">Not configured</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="config-grid">
+                                        <div class="form-group">
+                                            <label>API Token:</label>
+                                            <input type="text" id="apiToken" class="form-control"
+                                                placeholder="Your Alchemer API Token">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>API Secret:</label>
+                                            <input type="password" id="apiSecret" class="form-control"
+                                                placeholder="Your API Secret">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Survey ID:</label>
+                                            <input type="text" id="apiSurveyId" class="form-control"
+                                                placeholder="Survey ID to fetch">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-secondary" onclick="testApiConnection()">🔍 Test
+                                        Connection</button>
+                                    <button class="btn btn-primary" onclick="saveApiCredentials()">💾 Save
+                                        Credentials</button>
+                                </div>
+                            </div>
+
+                            <!-- Update Status Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>🔄 Update Response Status</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                                        Lấy status (Complete/Partial/Disqualified) từ Alchemer và cập nhật vào data đã
+                                        import.
+                                    </p>
+                                    <div class="config-grid">
+                                        <div class="form-group">
+                                            <label>PLID Column (trong data hiện tại):</label>
+                                            <select id="plidColumnSelect" class="form-control">
+                                                <option value="">-- Chọn cột chứa PLID --</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status Column (sẽ tạo mới nếu chưa có):</label>
+                                            <input type="text" id="statusColumnName" class="form-control"
+                                                value="Response_Status" placeholder="Response_Status">
+                                        </div>
+                                    </div>
+                                    <div class="api-progress" id="apiProgress" style="display: none;">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="apiProgressFill" style="width: 0%"></div>
+                                        </div>
+                                        <span class="progress-text" id="apiProgressText">0%</span>
+                                    </div>
+                                    <div class="api-result" id="apiResult" style="display: none; margin-top: 16px;">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary" onclick="fetchAndUpdateStatus()"
+                                        id="fetchStatusBtn">
+                                        🔄 Fetch & Update Status
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Fetch Full Data Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>📥 Fetch Full Survey Data</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                                        Tải toàn bộ responses từ survey và thay thế data hiện tại.
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-secondary" onclick="fetchFullSurveyData()">
+                                        📥 Fetch All Responses
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- URL Import View -->
-                
+                <section class="view" id="urlImportView">
+                    <div class="url-import-container">
+                        <!-- Import Form Card -->
+                        <div class="card url-import-card">
+                            <div class="card-header">
+                                <h3>🌐 Import từ URL</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="url-import-form">
+                                    <div class="form-row">
+                                        <div class="form-group flex-2">
+                                            <label>URL file CSV/Excel:</label>
+                                            <input type="url" id="urlModuleInput" class="form-control"
+                                                placeholder="https://example.com/data.csv">
+                                        </div>
+                                        <div class="form-group flex-1">
+                                            <label>Tên dự án:</label>
+                                            <input type="text" id="urlProjectName" class="form-control"
+                                                placeholder="Tên dự án...">
+                                        </div>
+                                        <div class="form-group flex-0">
+                                            <label>&nbsp;</label>
+                                            <button class="btn btn-primary" onclick="importUrlModule()">
+                                                📥 Import
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="url-import-progress" id="urlModuleProgress" style="display: none;">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="urlModuleProgressFill" style="width: 0%">
+                                            </div>
+                                        </div>
+                                        <span class="progress-text" id="urlModuleProgressText">Đang tải...</span>
+                                    </div>
+                                </div>
+                                <div class="url-history-section">
+                                    <div class="url-history-header">
+                                        <label>📜 Lịch sử import:</label>
+                                        <div class="url-history-actions">
+                                            <button class="btn btn-xs btn-outline" onclick="toggleUrlHistoryPanel()">
+                                                <span id="urlHistoryToggleIcon">▼</span>
+                                            </button>
+                                            <button class="btn btn-xs btn-outline" onclick="clearAllUrlHistory()"
+                                                title="Xóa tất cả">🗑️</button>
+                                        </div>
+                                    </div>
+                                    <div class="url-history-list" id="urlHistoryList" style="display: none;">
+                                        <!-- History items will be rendered here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- URL Data Table -->
+                        <div class="card url-data-card" id="urlDataCard" style="display: none;">
+                            <div class="card-header">
+                                <h3 id="urlDataTitle">📊 Dữ liệu</h3>
+                                <div class="url-toolbar">
+                                    <!-- Filter -->
+                                    <div class="url-filter-group">
+                                        <select id="urlFilterColumn" class="form-control form-control-sm"
+                                            onchange="updateUrlFilterValues()">
+                                            <option value="">-- Lọc theo cột --</option>
+                                        </select>
+                                        <div class="url-filter-dropdown">
+                                            <button class="btn btn-sm btn-outline" id="urlFilterValBtn"
+                                                onclick="toggleUrlFilterPanel()">
+                                                Chọn giá trị ▼
+                                            </button>
+                                            <div class="url-filter-panel" id="urlFilterPanel" style="display: none;">
+                                                <div class="panel-header">
+                                                    <span>Lọc theo giá trị</span>
+                                                    <button class="btn btn-xs btn-outline"
+                                                        onclick="toggleUrlFilterAll(true)">All</button>
+                                                    <button class="btn btn-xs btn-outline"
+                                                        onclick="toggleUrlFilterAll(false)">None</button>
+                                                </div>
+                                                <div class="filter-values-list" id="urlFilterValuesList"></div>
+                                                <div class="panel-footer">
+                                                    <button class="btn btn-sm btn-primary"
+                                                        onclick="applyUrlMultiFilter()">Áp dụng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-xs btn-outline" onclick="clearUrlFilter()">✕</button>
+                                    </div>
+                                    <!-- Column Visibility -->
+                                    <div class="url-visibility-dropdown">
+                                        <button class="btn btn-sm btn-outline" id="urlColVisBtn"
+                                            onclick="toggleUrlColumnPanel()">
+                                            👁️ Cột
+                                        </button>
+                                        <div class="url-visibility-panel" id="urlColVisPanel" style="display: none;">
+                                            <div class="panel-header">
+                                                <span>Hiển thị cột</span>
+                                                <button class="btn btn-xs btn-outline"
+                                                    onclick="toggleUrlAllColumns(true)">All</button>
+                                                <button class="btn btn-xs btn-outline"
+                                                    onclick="toggleUrlAllColumns(false)">None</button>
+                                            </div>
+                                            <div class="column-list" id="urlColumnList"></div>
+                                        </div>
+                                    </div>
+                                    <span class="url-data-info" id="urlDataInfo"></span>
+                                </div>
+                            </div>
+                            <div class="card-body url-table-body">
+                                <div class="data-table-container url-table-compact">
+                                    <table class="data-table url-table" id="urlDataTable">
+                                        <thead id="urlDataTableHead"></thead>
+                                        <tbody id="urlDataTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="url-pagination-controls">
+                                    <div class="pagination-left">
+                                        <div class="pagination-buttons">
+                                            <button class="btn btn-sm btn-outline"
+                                                onclick="goToUrlPage('first')">⏮️</button>
+                                            <button class="btn btn-sm btn-outline"
+                                                onclick="goToUrlPage('prev')">◀️</button>
+                                            <span class="page-numbers" id="urlPageNumbers"></span>
+                                            <button class="btn btn-sm btn-outline"
+                                                onclick="goToUrlPage('next')">▶️</button>
+                                            <button class="btn btn-sm btn-outline"
+                                                onclick="goToUrlPage('last')">⏭️</button>
+                                        </div>
+                                        <span class="pagination-info" id="urlPaginationInfo">Page 1 of 1</span>
+                                    </div>
+                                    <div class="pagination-right">
+                                        <span>Rows:</span>
+                                        <select id="urlRowsPerPage" class="form-control form-control-sm"
+                                            onchange="changeUrlRowsPerPage(this.value)">
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100" selected>100</option>
+                                            <option value="200">200</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Projects View -->
                 <section class="view" id="projectsView">
@@ -6716,7 +7054,7 @@ textarea.form-control {
                                 <div class="card">
                                     <div class="card-header">
                                         <h3>📁 Projects</h3>
-                                        <span class="badge" id="projectCount">6</span>
+                                        <span class="badge" id="projectCount">0</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="projects-list" id="projectsList">
@@ -6741,20 +7079,6 @@ textarea.form-control {
                 <span class="badge badge-success">Active</span>
             </div>
         </div>
-        <div class="project-item">
-            <div class="project-icon">🦖</div>
-            <div class="project-info">
-                <div class="project-name">⚡ reask 1 - f88</div>
-                <div class="project-meta">Survey: 8615387</div>
-            </div>
-        </div>
-        <div class="project-item">
-            <div class="project-icon">🍄</div>
-            <div class="project-info">
-                <div class="project-name">reask 3 - f88</div>
-                <div class="project-meta">Survey: 8620972</div>
-            </div>
-        </div>
     </div></div>
                                     </div>
                                 </div>
@@ -6762,9 +7086,9 @@ textarea.form-control {
 
                             <!-- Project Detail -->
                             <div class="project-detail-panel">
-                                <div class="card" id="projectDetailCard" style="display: block;">
+                                <div class="card" id="projectDetailCard" style="display: none;">
                                     <div class="card-header">
-                                        <h3 id="projectDetailTitle">Entre</h3>
+                                        <h3 id="projectDetailTitle">Project Detail</h3>
                                         <div class="project-actions">
                                             <button class="btn btn-xs btn-outline" onclick="editCurrentProject()"
                                                 title="Edit">✏️</button>
@@ -6777,11 +7101,11 @@ textarea.form-control {
                                         <div class="project-info-section">
                                             <div class="info-row">
                                                 <span class="info-label">Survey ID:</span>
-                                                <span class="info-value" id="projectSurveyId">8662546</span>
+                                                <span class="info-value" id="projectSurveyId">-</span>
                                             </div>
                                             <div class="info-row">
                                                 <span class="info-label">Target:</span>
-                                                <span class="info-value" id="projectTarget">600 responses</span>
+                                                <span class="info-value" id="projectTarget">-</span>
                                             </div>
                                         </div>
 
@@ -6809,16 +7133,10 @@ textarea.form-control {
                                             </div>
                                             <div class="quota-last-fetch" id="quotaLastFetch">Chưa fetch</div>
                                             <div class="quota-list" id="projectQuotaList">
-        <div class="quota-item" style="margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
-                <span>TOTAL Ho Chi Minh 300</span>
-                <span>300/315 (remaining 15)</span>
-            </div>
-            <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-                <div style="width: 95%; height: 100%; background: #10b981;"></div>
-            </div>
-        </div>
-    </div></div>
+                                                <div class="empty-state small">
+                                                    <p>Click "Refresh" để lấy quota từ Alchemer</p>
+                                                </div>
+                                            </div>
                                             <div class="quota-summary" id="quotaSummary" style="display: none;">
                                                 <div class="summary-item">
                                                     <span class="summary-label">Tổng hoàn thành:</span>
@@ -6855,7 +7173,7 @@ textarea.form-control {
                                 </div>
 
                                 <!-- No Project Selected -->
-                                <div class="card" id="noProjectSelected" style="display: none;">
+                                <div class="card" id="noProjectSelected">
                                     <div class="card-body">
                                         <div class="empty-state">
                                             <span class="empty-icon">👈</span>
@@ -6871,9 +7189,11 @@ textarea.form-control {
                 <!-- Data View (Filter & Batch) -->
                 <section class="view" id="dataView">
                     <div class="data-view-layout">
-                        <div class="data-view-main" style="display: flex; align-items: flex-start; gap: 20px; padding: 0;">
+                        <div class="data-view-main" style="padding: 24px;">
                             <!-- Project Info Panel (Moved here) -->
-                            <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0;">
+                            
+        <div class="data-view-top-row" style="display: flex; align-items: stretch; gap: 20px; margin-bottom: 24px;">
+            <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0;">
         <div class="project-info-panel" style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); height: 100%;">
             <div class="project-name-box" style="font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                 <span style="font-size: 18px;">📂</span> 260106 - home
@@ -6881,36 +7201,72 @@ textarea.form-control {
             <div class="priority-box" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
                 <div style="color: #92400e; font-weight: 700; font-size: 13px;">🔥 Priority to run:</div>
                 <ul style="color: #b45309; font-size: 12px; margin-top: 6px; list-style: disc; padding-left: 20px;">
-                    <li>TOTAL 60+: <span style="color: #ef4444;">Missing 51</span></li>
+                    <li>TOTAL 60+: <span style="color: #ef4444; font-weight: 700;">Missing 51</span></li>
+                    <li>Nữ 33: <span style="color: #ef4444; font-weight: 700;">Missing 31</span></li>
+                    <li>Nam 22: <span style="color: #ef4444; font-weight: 700;">Missing 20</span></li>
                 </ul>
             </div>
             <div class="quota-progress-box" style="margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
-                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span></span>
-                    <span>▶️</span>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px;">
+                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span> <small style="color: #64748b; font-weight: normal;">(remaining 51)</small></span>
+                    <span style="font-size: 14px; cursor: pointer;">▶️</span>
                 </div>
-                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden;">
-                    <div style="width: 15%; height: 100%; background: #6366f1;"></div>
+                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="width: 15%; height: 100%; background: linear-gradient(90deg, #6366f1, #a855f7);"></div>
                 </div>
             </div>
-            <button class="btn btn-primary" style="width: 100%;">💾 Save Changes</button>
+            <div style="margin-bottom: 20px;">
+                 <div style="font-weight: 700; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">📌 PROJECT CRITERIA</div>
+                 <div style="font-size: 12px; line-height: 1.5;">hcm, nam, nu, cate1 10-20, cate2 10-20, cate3 10-20</div>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; font-weight: 600;">💾 Save Changes</button>
         </div>
-    </div><div class="data-content-column" style="flex: 1; min-width: 0;">
-
-                            <!-- Main content area -->
-                            
-        <div class="card" style="margin-bottom: 24px; width: 100%;">
-            <div class="card-header"><h3 style="font-size: 14px;">📋 Vendors & Quota</h3></div>
-            <div class="card-body">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <strong>Cint</strong> <input type="text" class="form-control form-control-sm" value="link..." style="flex: 1;">
+    </div>
+            
+        <div class="card" style="margin-bottom: 0; flex: 1; display: flex; flex-direction: column;">
+            <div class="card-header" style="padding: 12px 16px; background: rgba(99, 102, 241, 0.03);">
+                 <h3 style="font-size: 14px; display: flex; align-items: center; gap: 8px;">📋 Vendors & Quota</h3>
+            </div>
+            <div class="card-body" style="padding: 16px; flex: 1;">
+                <div style="margin-bottom: 16px;">
+                     <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">📊 Sample Vendors:</div>
+                     <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                         <div style="display: flex; align-items: center; gap: 12px;">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/PureSpectrum_Logo.png" style="height: 16px; filter: grayscale(1) brightness(2);">
+                             <input type="text" class="form-control form-control-sm" placeholder="Enter link..." style="flex: 1;">
+                         </div>
+                         <div style="display: flex; align-items: center; gap: 12px;">
+                             <strong style="font-size: 13px; width: 40px;">Cint</strong>
+                             <input type="text" class="form-control form-control-sm" placeholder="Enter link..." style="flex: 1;">
+                         </div>
+                     </div>
+                </div>
+                <div style="border-top: 1px dashed var(--border-color); padding-top: 16px;">
+                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">📊 Vendor Quota Table</div>
+                    <div style="font-size: 12px; color: #64748b; background: var(--bg-tertiary); padding: 12px; border-radius: 8px; text-align: center; border: 1px dashed var(--border-color);">
+                        No data. Click "Fetch from Alchemer" or "+ Add row" to start.
                     </div>
                 </div>
             </div>
         </div>
     
-<div class="data-toolbar">
+        </div>
+    
+
+                            <!-- Main content area -->
+                            
+        <div style="display: flex; align-items: center; gap: 10px; width: 100%; margin-bottom: 20px;">
+            <div style="position: relative; flex: 1;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
+                <input type="text" class="form-control" placeholder="Search..." style="padding-left: 36px; height: 40px; background: var(--bg-secondary); border-radius: 8px;">
+            </div>
+            <button class="btn btn-outline" style="height: 40px; border-radius: 8px;">🎲 Shuffle</button>
+            <button class="btn btn-outline" style="height: 40px; border-radius: 8px;">⚙️ Columns</button>
+            <div style="margin-left: auto; font-size: 13px; color: #94a3b8;">Showing 1-25 / 2000</div>
+            <button class="btn btn-icon" style="background: #6366f1; color: white; border-radius: 8px; width: 32px; height: 40px;">🔄</button>
+        </div>
+    
+<div class="data-toolbar" style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                                 <div class="toolbar-left">
                                     <div class="filter-section">
                                         <button class="btn btn-icon" id="filterToggle" title="Toggle Filters">
@@ -6947,17 +7303,24 @@ textarea.form-control {
                                     </div>
                                 </div>
                                 <div class="toolbar-right">
-                                    <span class="row-count">Showing <span id="visibleCount">2000</span> / <span
-                                            id="totalCount">4031</span></span>
+                                    <span class="row-count">Showing <span id="visibleCount">0</span> / <span
+                                            id="totalCount">0</span></span>
                                     <button class="btn btn-icon" onclick="refreshData()" title="Refresh">🔄</button>
                                 </div>
                             </div>
                             <!-- Filter Summary Box -->
-                            <div id="filterSummaryBox" class="filter-summary-box" style="display: block;">
-        <div class="filter-summary-tags">
-            <span class="filter-tag">province: Ho Chi Minh</span>
-            <span class="filter-tag">year: 28 items</span>
+                            <div id="filterSummaryBox" class="filter-summary-box" style="display: block; background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+        <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 13px; font-weight: 700; color: #6366f1;">🟣 Hiện trạng Filter</span>
+            <span style="font-size: 11px; color: #ef4444; cursor: pointer; margin-left: auto;">Xóa hết ×</span>
+        </div>
+        <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px;">Đang hiển thị: <span style="color: #6366f1;">2000 / 4031</span> respondents</div>
+        <div class="filter-summary-tags" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="filter-tag" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8;">province: Ho Chi Minh</span>
+            <span class="filter-tag" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8;">year: 28 items</span>
+            <span class="filter-tag" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: #818cf8;">fincome: 14 items</span>
             <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">SMS_Batch: 1, 2</span>
+            <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">Email_Batch: 1</span>
         </div>
     </div>
 
@@ -7074,8 +7437,25 @@ textarea.form-control {
 
                             <div class="data-table-container">
                                 <table class="data-table" id="dataTable">
-                                    <thead><tr><th>#</th><th>MOBILE</th><th>YEAR</th><th>GENDER</th><th>SMS_BATCH</th></tr></thead>
-                                    <tbody><tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr></tbody>
+                                    <thead id="dataTableHead"></thead>
+                                    <tbody>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 12px 0; opacity: 0.5;">#</td><td style="font-weight: 700;">MOBILE</td><td>YEAR</td><td>GENDER</td><td>FINCOME</td><td>PROVINCE</td><td>CONTENT_SMS</td><td>SMS_BATCH</td>
+        </tr>
+        <tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td>30M - 40M</td><td>HCM</td><td>IFM co KS 5phut...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>504</td><td>84913204007</td><td>41</td><td>Male</td><td>40M - 50M</td><td>HCM</td><td>IFM co KS 5phut...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+    </tbody>
+        <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-tertiary); padding: 8px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 13px;">
+            <span style="color: #94a3b8;">📁 Project:</span> <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-weight: 700;">260106 - home</span>
+            <div style="margin-left: auto; display: flex; gap: 8px;">
+                <button class="btn btn-sm" style="background: #06b6d4; color: white;">Mark Batch ▼</button>
+                <select class="form-control form-control-sm" style="width: 80px;"><option>SMS</option></select>
+                <select class="form-control form-control-sm" style="width: 80px;"><option>-- Batch</option></select>
+                <button class="btn btn-sm btn-danger">🗑️</button>
+                <button class="btn btn-icon btn-xs">↶</button>
+                <button class="btn btn-icon btn-xs">↷</button>
+            </div>
+        </div>
                                 </table>
                                 <div class="empty-state" id="dataEmptyState">
                                     <img src="assets/icons/mantis.png" alt="" class="empty-icon-img">
@@ -7183,7 +7563,7 @@ textarea.form-control {
                             </div>
                         </div>
 
-                    </div></div> <!-- End data-view-main -->
+                    </div> <!-- End data-view-main -->
             </div> <!-- End data-view-layout -->
             </section>
 
@@ -7929,79 +8309,45 @@ textarea.form-control {
     <!-- © 2025 Phạm Đông Điền | phamdongdien19@gmail.com | PDD-FWTOOLS-2024-AUTHENTIC -->
 
 <script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar) sidebar.classList.toggle('collapsed');
-    }
-    function toggleMobileMenu() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobileOverlay');
-        if (sidebar && overlay) {
-            sidebar.classList.toggle('mobile-open');
-            overlay.classList.toggle('active');
-        }
+    function toggleSidebar() { const sb = document.getElementById('sidebar'); if(sb) sb.classList.toggle('collapsed'); }
+    function toggleMobileMenu() { 
+        const sb = document.getElementById('sidebar'); 
+        const ov = document.getElementById('mobileOverlay');
+        if(sb && ov) { sb.classList.toggle('mobile-open'); ov.classList.toggle('active'); }
     }
     function switchView(viewId, el) {
-        console.log('Switching to view:', viewId);
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const targetView = document.getElementById(viewId + 'View');
         if (targetView) targetView.classList.add('active');
-        
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        if (el && el.classList.contains('nav-item')) {
-            el.classList.add('active');
-        } else {
-            const navItem = document.querySelector(`[data-view="${viewId}"]`);
-            if (navItem) navItem.classList.add('active');
-        }
-
-        // Close mobile drawer
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobileOverlay');
-        if (sidebar) sidebar.classList.remove('mobile-open');
-        if (overlay) overlay.classList.remove('active');
-
-        // Header Title
-        const titles = { dashboard: 'Dashboard', projects: 'Projects', data: 'Filter & Batch', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
+        if (el && el.classList.contains('nav-item')) { el.classList.add('active'); }
+        else { const ni = document.querySelector(`[data-view="${viewId}"]`); if(ni) ni.classList.add('active'); }
+        const titles = { dashboard: 'Dashboard', projects: 'Projects', data: 'Data View', export: 'Export', config: 'Config', autoReport: 'Auto Report' };
         const titleEl = document.getElementById('pageTitle');
         if (titleEl) titleEl.innerText = titles[viewId] || 'FW Tools';
+        if (viewId === 'data') {
+            const sm = document.getElementById('sidebar');
+            if(sm) sm.classList.add('collapsed');
+        }
     }
-
     document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
-        
-        // Add Event Listeners for Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-                const view = item.getAttribute('data-view');
-                switchView(view, item);
+                switchView(item.getAttribute('data-view'), item);
             });
         });
-
-        // Toggle Sidebar
         const toggleBtn = document.getElementById('sidebarToggle');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', toggleSidebar);
-        }
-
-        // Mobile Menu Button
+        if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
         const mobileBtn = document.getElementById('mobileMenuBtn');
-        if (mobileBtn) {
-            mobileBtn.addEventListener('click', toggleMobileMenu);
-        }
-
-        // Mobile Overlay
+        if (mobileBtn) mobileBtn.addEventListener('click', toggleMobileMenu);
         const overlay = document.getElementById('mobileOverlay');
-        if (overlay) {
-            overlay.addEventListener('click', toggleMobileMenu);
-        }
-
-        // Default view
-        switchView('dashboard');
+        if (overlay) overlay.addEventListener('click', toggleMobileMenu);
+        switchView('data'); // Default for demoing the specific view
     });
 </script>
-
+    
 </body>
 
 </html>
