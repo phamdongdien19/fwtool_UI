@@ -6760,27 +6760,69 @@ textarea.form-control {
                                 <div class="card">
                                     <div class="card-header">
                                         <h3>📁 Projects</h3>
-                                        <span class="badge" id="projectCount">0</span>
+                                        <span class="badge" id="projectCount">6</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="projects-list" id="projectsList">
-                                            <div class="empty-state">
-                                                <span class="empty-icon">📂</span>
-                                                <p>Chưa có project nào</p>
-                                                <button class="btn btn-outline" onclick="openProjectModal()">
-                                                    Tạo project đầu tiên
-                                                </button>
-                                            </div>
-                                        </div>
+        <div class="project-item active" onclick="switchProject('entre', this)">
+            <div class="project-icon">🍄</div>
+            <div class="project-info">
+                <div class="project-name">Entre</div>
+                <div class="project-meta">Survey: 8662546 &nbsp; 628/640</div>
+            </div>
+            <div class="project-badges">
+                <button class="btn-delete-mini">🗑️</button>
+                <button class="btn-star-mini active">⭐</button>
+            </div>
+        </div>
+        <div class="project-item" onclick="switchProject('h260106', this)">
+            <div class="project-icon">🦖</div>
+            <div class="project-info">
+                <div class="project-name">⚡ 260106 - h...</div>
+                <div class="project-meta">Survey: 8668405</div>
+            </div>
+            <div class="project-status">
+                <span class="badge badge-success">Active</span>
+            </div>
+        </div>
+        <div class="project-item">
+            <div class="project-icon">🦖</div>
+            <div class="project-info">
+                <div class="project-name">⚡ reask 1 - f88</div>
+                <div class="project-meta">Survey: 8615387</div>
+            </div>
+        </div>
+        <div class="project-item">
+            <div class="project-icon">🍄</div>
+            <div class="project-info">
+                <div class="project-name">reask 3 - f88</div>
+                <div class="project-meta">Survey: 8620972</div>
+            </div>
+        </div>
+        <div class="project-item">
+            <div class="project-icon">🍄</div>
+            <div class="project-info">
+                <div class="project-name">flyer</div>
+                <div class="project-meta">Survey: 8598754</div>
+            </div>
+        </div>
+        <div class="project-item">
+            <div class="project-icon">🍄</div>
+            <div class="project-info">
+                <div class="project-name">artmoney</div>
+                <div class="project-meta">Survey: 8597003</div>
+            </div>
+        </div>
+    </div></div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Project Detail -->
                             <div class="project-detail-panel">
-                                <div class="card" id="projectDetailCard" style="display: none;">
+                                <div class="card" id="projectDetailCard" style="display: block;">
                                     <div class="card-header">
-                                        <h3 id="projectDetailTitle">Project Detail</h3>
+                                        <h3 id="projectDetailTitle">Entre</h3>
                                         <div class="project-actions">
                                             <button class="btn btn-xs btn-outline" onclick="editCurrentProject()"
                                                 title="Edit">✏️</button>
@@ -6793,25 +6835,39 @@ textarea.form-control {
                                         <div class="project-info-section">
                                             <div class="info-row">
                                                 <span class="info-label">Survey ID:</span>
-                                                <span class="info-value" id="projectSurveyId">-</span>
+                                                <span class="info-value" id="projectSurveyId">8662546</span>
                                             </div>
                                             <div class="info-row">
                                                 <span class="info-label">Target:</span>
-                                                <span class="info-value" id="projectTarget">-</span>
+                                                <span class="info-value" id="projectTarget">600 responses</span>
                                             </div>
                                         </div>
 
                                         <!-- Criteria Section -->
                                         <div class="project-criteria-section">
                                             <h4>📋 <span data-i18n="project.criteria">Project Criteria</span></h4>
-                                            <p class="criteria-text" id="projectCriteria">-</p>
+                                            <p class="criteria-text" id="projectCriteria">
+        <ul style="list-style: disc; padding-left: 20px; margin-top: 10px;">
+            <li>Tuổi: 18 - 50 ; HCM/HN</li>
+            <li>Vai trò: Là người quyết định mua chính đối với các loại thực phẩm chức năng và đồ uống thể thao.</li>
+            <li>SEC: ABC</li>
+            <li>Giới tính: 50% nam / 50% nữ.</li>
+            <li>Phân loại đối tượng:</li>
+        </ul>
+        <ul style="list-style: circle; padding-left: 20px; margin-top: 10px;">
+            <li>Người dùng đồ uống dinh dưỡng thể thao</li>
+            <li>Người dùng TPCN</li>
+            <li>Người tập Gym/ thể thao</li>
+            <li>Người có ý định sử dụng sp trong tương lai.</li>
+        </ul>
+    </p>
                                         </div>
 
                                         <!-- Notes Section -->
                                         <div class="project-notes-section" id="projectNotesSection"
                                             style="display: none;">
                                             <h4>💡 <span data-i18n="projectForm.notes">Notes</span></h4>
-                                            <p class="notes-text" id="projectNotes">-</p>
+                                            <p class="notes-text" id="projectNotes">Ưu tiên: Age18-29, 15mil-20mil, sử dụng thực phẩm chức năng hỗ trợ cho sport,</p>
                                         </div>
 
                                         <!-- Quota Section -->
@@ -6823,12 +6879,18 @@ textarea.form-control {
                                                     🔄 Refresh
                                                 </button>
                                             </div>
-                                            <div class="quota-last-fetch" id="quotaLastFetch">Chưa fetch</div>
+                                            <div class="quota-last-fetch" id="quotaLastFetch">Cập nhật: 18:18:40 17/2/2026</div>
                                             <div class="quota-list" id="projectQuotaList">
-                                                <div class="empty-state small">
-                                                    <p>Click "Refresh" để lấy quota từ Alchemer</p>
-                                                </div>
-                                            </div>
+        <div class="quota-item" style="margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                <span>TOTAL Ho Chi Minh 300</span>
+                <span>300/315 (remaining 15)</span>
+            </div>
+            <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                <div style="width: 95%; height: 100%; background: #10b981;"></div>
+            </div>
+        </div>
+    </div></div>
                                             <div class="quota-summary" id="quotaSummary" style="display: none;">
                                                 <div class="summary-item">
                                                     <span class="summary-label">Tổng hoàn thành:</span>
@@ -6865,7 +6927,7 @@ textarea.form-control {
                                 </div>
 
                                 <!-- No Project Selected -->
-                                <div class="card" id="noProjectSelected">
+                                <div class="card" id="noProjectSelected" style="display: none;">
                                     <div class="card-body">
                                         <div class="empty-state">
                                             <span class="empty-icon">👈</span>
