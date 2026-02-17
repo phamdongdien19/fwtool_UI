@@ -6943,12 +6943,116 @@ textarea.form-control {
                 <!-- Data View (Filter & Batch) -->
                 <section class="view" id="dataView">
                     <div class="data-view-layout">
-                        <div class="data-view-main">
+                        <div class="data-view-main" style="display: flex; align-items: flex-start;">
                             <!-- Project Info Panel (Moved here) -->
-                            <div id="projectInfoPanelContainer"></div>
+                            <div id="projectInfoPanelContainer" style="width: 280px; flex-shrink: 0; margin-right: 20px;">
+        <div class="project-info-panel" style="background: var(--bg-secondary); border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); height: 100%;">
+            <div class="project-name-box" style="font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">📂</span> 260106 - home
+            </div>
+            
+            <div class="priority-box" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+                <div style="color: #92400e; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                    🔥 Priority to run:
+                </div>
+                <ul style="color: #b45309; font-size: 12px; margin-top: 6px; list-style: disc; padding-left: 20px; line-height: 1.6;">
+                    <li>TOTAL 60+: <span style="color: #ef4444; font-weight: 700;">Missing 51</span></li>
+                    <li>Nữ 33: <span style="color: #ef4444; font-weight: 700;">Missing 31</span></li>
+                    <li>Nam 22: <span style="color: #ef4444; font-weight: 700;">Missing 20</span></li>
+                </ul>
+            </div>
+
+            <div class="quota-progress-box" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px;">
+                    <span>📊 Quota: <span style="color: #6366f1;">9/60</span> <small style="color: #64748b; font-weight: normal;">(remaining 51)</small></span>
+                    <span style="font-size: 14px; cursor: pointer;">▶️</span>
+                </div>
+                <div style="height: 10px; background: rgba(0,0,0,0.2); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="width: 15%; height: 100%; background: linear-gradient(90deg, #6366f1, #a855f7);"></div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                 <div style="font-weight: 700; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">📌 PROJECT CRITERIA</div>
+                 <div style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">hcm, nam, nu, cate1 10-20, cate2 10-20, cate3 10-20</div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                 <div style="font-weight: 700; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">💡 Quick Notes:</div>
+                 <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; min-height: 80px; font-size: 13px; color: var(--text-primary);">Tháng 1/24, phỏng vấn tại nhà</div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; height: 40px; border-radius: 8px; font-weight: 600;">💾 Save Changes</button>
+        </div>
+    </div>
 
                             <!-- Main content area -->
-                            <div class="data-toolbar">
+                            
+        <div class="card" style="margin-bottom: 24px; width: 100%;">
+            <div class="card-header" style="padding: 12px 16px; background: rgba(99, 102, 241, 0.05);">
+                 <h3 style="font-size: 14px; display: flex; align-items: center; gap: 8px;">📋 Vendors & Quota</h3>
+            </div>
+            <div class="card-body" style="padding: 16px;">
+                <div class="vendors-links">
+                     <div style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">📊 Sample Vendors:</div>
+                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                         <div style="display: flex; align-items: center; gap: 12px;">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/PureSpectrum_Logo.png" style="height: 20px; filter: grayscale(1) brightness(2);" onerror="this.src='https://via.placeholder.com/20?text=PS'">
+                             <input type="text" class="form-control form-control-sm" value="Enter project link PureSpectrum..." style="color: #64748b;">
+                         </div>
+                         <div style="display: flex; align-items: center; gap: 12px;">
+                             <strong style="font-size: 14px; width: 40px;">Cint</strong>
+                             <input type="text" class="form-control form-control-sm" value="Enter project link Cint..." style="color: #64748b;">
+                         </div>
+                     </div>
+                </div>
+                
+                <div class="vendor-quota-table-container" style="margin-top: 24px; border-top: 1px dashed var(--border-color); padding-top: 16px;">
+                    <div style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;">📊 Vendor Quota Table</div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;">
+                        <input type="text" class="form-control form-control-sm" placeholder="Loc quota: nhập nhiều keyword cách nhau bởi dấu phẩy" style="flex: 1;">
+                        <button class="btn btn-sm btn-outline">🗑️ Xóa</button>
+                        <div style="background: rgba(99, 103, 241, 0.05); border: 1px dashed rgba(99, 103, 241, 0.2); border-radius: 6px; padding: 6px 12px; font-size: 11px; color: #6366f1;">
+                            / Clean TOTAL, online, offline, vendor Prefix:
+                        </div>
+                    </div>
+
+                    <div style="font-size: 13px; font-weight: 700; color: #6366f1; margin: 16px 0 12px 0; display: flex; align-items: center; gap: 8px;">
+                        🌐 ONLINE <span style="background: rgba(99, 102, 241, 0.1); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;">G/Q</span>
+                    </div>
+
+                    <table class="data-table small" style="width: 100%;">
+                        <thead>
+                            <tr style="background: var(--bg-tertiary);">
+                                <th style="text-align: left; padding: 10px;">TÊN QUOTA</th>
+                                <th style="text-align: center; width: 100px;">NEED</th>
+                                <th style="text-align: center; width: 60px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="padding: 10px; color: #94a3b8;">🚩 Nam</td><td style="text-align: center; font-weight: 600;">20</td><td style="text-align: center;">🗑️</td></tr>
+                            <tr style="background: rgba(255,255,255,0.02);"><td style="padding: 10px; color: #94a3b8;">🚩 Nữ</td><td style="text-align: center; font-weight: 600;">31</td><td style="text-align: center;">🗑️</td></tr>
+                            <tr><td style="padding: 10px; color: #94a3b8;">🚩 Tủ lạnh minimum - 10 and maximum - </td><td style="text-align: center; font-weight: 600;">17</td><td style="text-align: center;">🗑️</td></tr>
+                            <tr style="background: rgba(255,255,255,0.02);"><td style="padding: 10px; color: #94a3b8;">🚩 Máy giặt minimum - 10 and maximum - </td><td style="text-align: center; font-weight: 600;">17</td><td style="text-align: center;">🗑️</td></tr>
+                            <tr><td style="padding: 10px; color: #94a3b8;">🚩 Máy lạnh minimum - 10 and maximum - </td><td style="text-align: center; font-weight: 600;">17</td><td style="text-align: center;">🗑️</td></tr>
+                            <tr style="background: rgba(239, 68, 68, 0.05);"><td style="padding: 10px; color: #ef4444; font-weight: 600;">🚩 60+</td><td style="text-align: center; color: #ef4444; font-weight: 800;">51</td><td style="text-align: center;">🗑️</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;">
+                         <button class="btn btn-sm btn-outline">🔄 Fetch from Alchemer</button>
+                         <button class="btn btn-sm btn-outline">+ Online</button>
+                         <button class="btn btn-sm btn-outline">+ Offline</button>
+                         <button class="btn btn-sm btn-sms" style="min-width: 80px;">💾 Save</button>
+                         <button class="btn btn-sm btn-outline">📋 Copy All</button>
+                         <button class="btn btn-sm btn-outline" style="border-color: #f87171; color: #ef4444; margin-left: auto;">📋 Copy Vendor Push</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+<div class="data-toolbar">
                                 <div class="toolbar-left">
                                     <div class="filter-section">
                                         <button class="btn btn-icon" id="filterToggle" title="Toggle Filters">
@@ -6985,13 +7089,24 @@ textarea.form-control {
                                     </div>
                                 </div>
                                 <div class="toolbar-right">
-                                    <span class="row-count">Showing <span id="visibleCount">0</span> / <span
-                                            id="totalCount">0</span></span>
+                                    <span class="row-count">Showing <span id="visibleCount">2000</span> / <span
+                                            id="totalCount">4031</span></span>
                                     <button class="btn btn-icon" onclick="refreshData()" title="Refresh">🔄</button>
                                 </div>
                             </div>
                             <!-- Filter Summary Box -->
-                            <div id="filterSummaryBox" class="filter-summary-box" style="display: none;"></div>
+                            <div id="filterSummaryBox" class="filter-summary-box" style="display: block;">
+        <div class="filter-summary-tags">
+            <span class="filter-tag">province: Ho Chi Minh</span>
+            <span class="filter-tag">year: 28 items</span>
+            <span class="filter-tag">fincome: 14 items</span>
+            <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">SMS_Batch: 1, 2</span>
+            <span class="filter-tag" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">Email_Batch: 1</span>
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-top: 10px;">
+            Đang hiển thị: <strong style="color: var(--color-primary);">2000</strong> / 4031 respondents
+        </div>
+    </div>
 
                             <div class="filter-panel" id="filterPanel" style="display: none;">
                                 <div class="filter-builder">
@@ -7106,10 +7221,29 @@ textarea.form-control {
 
                             <div class="data-table-container">
                                 <table class="data-table" id="dataTable">
-                                    <thead id="dataTableHead"></thead>
-                                    <tbody id="dataTableBody"></tbody>
+                                    <thead id="dataTableHead">
+        <tr>
+            <th>#</th>
+            <th>MOBILE</th>
+            <th>YEAR</th>
+            <th>GENDER</th>
+            <th>FINCOME</th>
+            <th>PROVINCE</th>
+            <th>CONTENT_SMS</th>
+            <th>SMS_BATCH</th>
+        </tr>
+    </thead>
+                                    <tbody id="dataTableBody">
+        <tr><td>502</td><td>84909782469</td><td>37</td><td>Female</td><td>30,000,001 - 40,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>504</td><td>84913204007</td><td>41</td><td>Male</td><td>40,000,001 - 50,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>507</td><td>84334549720</td><td>23</td><td>Male</td><td>30,000,001 - 40,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>508</td><td>84778979951</td><td>26</td><td>Female</td><td>25,000,001 - 30,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>510</td><td>84387740871</td><td>19</td><td>Female</td><td>15,000,001 - 20,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>512</td><td>84362580401</td><td>26</td><td>Female</td><td>20,000,001 - 25,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+        <tr><td>515</td><td>84898209799</td><td>26</td><td>Female</td><td>30,000,001 - 40,000,000 VND</td><td>Ho Chi Minh</td><td>IFM co KS 5phut ve tieu dung, nhan 1.000.000đ...</td><td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3</span></td></tr>
+    </tbody>
                                 </table>
-                                <div class="empty-state" id="dataEmptyState">
+                                <div class="empty-state" id="dataEmptyState" style="display: none;">
                                     <img src="assets/icons/mantis.png" alt="" class="empty-icon-img">
                                     <p data-i18n="filter.noData">No data. Please import a file.</p>
                                     <button class="btn btn-primary" onclick="switchView('import')">Import Data</button>
